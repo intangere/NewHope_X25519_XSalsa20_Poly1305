@@ -12,15 +12,16 @@ import sys
 class NewHopeXSPolyBox():
 
 	def __init__(self):
-		self._states = ['prekey_chunk', 'newhope_commitment', 'newhope_shared_1', \
-						'verify_hashed_seed', 'newhope_basepoint_generation']
 		self._state = 0
 
 	def setState(self):
-		self._state += 1
+		self._state += state
 
 	def clearState(self):
 		self._state = 0
+
+	def initCode(self):
+		return b'\x0b'
 
 	def genPrekeyChunk(self, size = 32):
 		self.prekey_chunk_1 = os.urandom(size)
