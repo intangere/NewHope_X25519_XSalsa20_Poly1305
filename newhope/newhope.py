@@ -49,14 +49,21 @@ def sharedb(received):
 # JSON or another portable format and transmitted (over an open channel) to the
 # client.
 def keygen(verbose = False):
+    ready = False
     global s_hat
-    seed = os.urandom(params.NEWHOPE_SEEDBYTES)
-    a_coeffs = gen_a(seed)
-    s_coeffs = get_noise()
-    s_hat = s_coeffs
-    e_coeffs = get_noise()
-    r_coeffs = poly.pointwise(s_coeffs, a_coeffs)
-    p_coeffs = poly.add(e_coeffs, r_coeffs)
+    while not ready:
+        try:
+            seed = os.urandom(params.NEWHOPE_SEEDBYTES)
+            a_coeffs = gen_a(seed)
+            s_coeffs = get_noise()
+            s_hat = s_coeffs
+            e_coeffs = get_noise()
+            r_coeffs = poly.pointwise(s_coeffs, a_coeffs)
+            p_coeffs = poly.add(e_coeffs, r_coeffs)
+            ready = True
+        except Exception as e:
+            print('Retrying keygen..')
+            ready = False
     return (p_coeffs, seed)
 
 # gen_a returns a list of random coefficients.
@@ -78,7 +85,7 @@ def gen_a(seed):
             j += 1
             if j * 2 >= len(shake_output):
                 print('Error: Not enough data from SHAKE-128')
-                exit(1)
+                raise 'Not enough data from SHAKE-128'
         output.append(coefficient)
         #print('chose ' + str(coefficient))
     return output
