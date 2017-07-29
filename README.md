@@ -1,14 +1,15 @@
 # NewHope_X25519_XSalsa20_Poly1305
 Post Quantum key exchange with NewHope and NaCl (requires Python3.6)
 <hr>
-(For the love of everything holy please do not use this yet. This is the very first version and many things will change.)<br>
-The NewHope_X25519_XSalsa20_Poly1305 exchange class is found in the nhxpoly/ folderr.<br>
+(For the love of everything holy please do not use this yet. This is the very first version and many things will change.)<br><br>
+The NewHope_X25519_XSalsa20_Poly1305 exchange class is found in the nhxpoly/ folder.<br>
 <br>
 If NewHope turns out to be breakable, you will at least still have the same security X25519_XSalsa20_Poly1305 offers.<br>
 Both algorithms need to be broken in order for the original exchange key to be reconstructed.<br>
 Combining this key exchange with more public key algos will offer that much more security because then X amount of algos will have to be broken.<br>
 With the resulting secret key from the exchange you may treat it as a OTP key and utilize the Vernam Cipher and exchange a new key per message.<br>
-You can also use it to generate a AES-256 key. Recommendeded cipher modes would be CTR or GCM.<br><br>
+You can also use it to generate a AES-256 key. Recommendeded cipher modes would be CTR or GCM.<br>
+It would also be wise to utilize some sort of hashing method per encrypted message to verify it hasn't been tampered with.<br><br>
 
 <h1>Description</h1><br>
 This library aims to combine the post-quantum NewHope encryption and X25519 elliptical curve cryptography.<br>
