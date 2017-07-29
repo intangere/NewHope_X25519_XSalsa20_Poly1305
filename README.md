@@ -1,5 +1,5 @@
 # NewHope_X25519_XSalsa20_Poly1305
-Post Quantum Cryptography key exchange with NewHope and NaCl
+Post Quantum key exchange with NewHope and NaCl (requires Python3.6)
 <hr>
 (For the love of everything holy please do not use this yet. This is the very first version and many things will change.)<br>
 <h1>Description</h1><br>
@@ -35,3 +35,17 @@ Here is output from a test use of the protocol in example.py<br>
 [Alice]: Combined prekey [191, 178, 30, 43, 31, 35, 94, 65, 96, 174, 186, 240, 173, 159, 110, 133, 27, 123, 113, 147, 112, 95, 241, 108, 210, 57, 145, 199, 3, 36, 242, 81, 246, 249, 178, 233, 90, 176, 68, 123, 40, 78, 164, 188, 88, 201, 83, 215, 37, 12, 167, 91, 81, 84, 150, 71, 134, 13, 0, 28, 155, 106, 229, 184]
 NewHope_X25519_XSalsa20_Poly1305 key exchange successful.
 ```
+<br>
+I've added an example implementation that uses your network via Twisted todo the key exchange.<br>
+There's a rendezvous server to directly link to clients p2p via UDP hole punching.<br>
+So the key exchange takes place with no middle man.<br>
+Here's how you can test it: (Run each command in a seperate console/terminal window<br>
+```
+python3.6 twisted_server.py 
+python3.6 twisted_client.py r
+python3.6 twisted_client.py s
+```
+<b>Warning</b>
+This is the bare minimum possible implementation in twisted. There is no packet structure and a few bugs<br>
+and very poor error handling. This will be updated in the future when I have more time.<br>
+I just wanted to demonstrate one way in which you can implement the key exchange over a network.<br>

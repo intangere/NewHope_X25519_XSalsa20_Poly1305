@@ -15,7 +15,7 @@ class NewHopeXSPolyBox():
 		self._state = 0
 
 	def setState(self):
-		self._state += state
+		self._state += 1
 
 	def clearState(self):
 		self._state = 0
@@ -45,8 +45,12 @@ class NewHopeXSPolyBox():
 	def initNewHope(self):
 		self.message = newhope.keygen(True)
 
-	def createNewHopeSharedKey(self):
+	def createNewHopeSharedKeyb(self):
 		self.shared_newhope_key = newhope.b_key
+
+	def createNewHopeSharedKeya(self):
+		self.shared_newhope_key = newhope.a_key
+
 
 	def combine_prekey_chunks(self):
 		self.prekey = self.shared_newhope_key + [x for x in self.prekey_chunk_1]
