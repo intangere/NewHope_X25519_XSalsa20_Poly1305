@@ -72,3 +72,4 @@ Shared key: [48, 184, 125, 19, 236, 108, 111, 32, 200, 161, 92, 195, 9, 35, 178,
 This is the bare minimum possible implementation in twisted. There is no packet structure and a few bugs<br>
 and very poor error handling. This will be updated in the future when I have more time.<br>
 I just wanted to demonstrate one way in which you can implement the key exchange over a network.<br>
+The twisted example also does not combine the keys at the end but it is only one extra line to do so.<br>
