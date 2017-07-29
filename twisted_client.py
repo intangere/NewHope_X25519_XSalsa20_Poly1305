@@ -155,6 +155,8 @@ class ClientProtocol(DatagramProtocol):
                 #self.transport.write(pickle.dumps(box.message), self.peer_address)
                 box.createNewHopeSharedKeya()
                 print('Shared key: %s' % box.shared_newhope_key)
+                box.combine_prekey_chunks()
+                print('Combined prekey: %s' % box.prekey)
                 box._state = 9
 
             elif box._state == 8:
@@ -164,6 +166,8 @@ class ClientProtocol(DatagramProtocol):
                 self.transport.write(pickle.dumps(box.message), self.peer_address)
                 box.createNewHopeSharedKeyb()
                 print('Shared key: %s' % box.shared_newhope_key)
+                box.combine_prekey_chunks()
+                print('Combined prekey: %s' % box.prekey)
                 box._state = 9
 
 
