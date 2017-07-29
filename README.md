@@ -37,7 +37,7 @@ NewHope_X25519_XSalsa20_Poly1305 key exchange successful.
 ```
 <br>
 I've added an example implementation that uses your network via Twisted todo the key exchange.<br>
-There's a rendezvous server to directly link to clients p2p via UDP hole punching.<br>
+There's a rendezvous server to directly link two clients p2p via UDP hole punching.<br>
 So the key exchange takes place with no middle man.<br>
 Here's how you can test it: (Run each command in a seperate console/terminal window<br>
 
