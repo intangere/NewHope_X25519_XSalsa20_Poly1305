@@ -17,32 +17,32 @@ For the python modules:
 pip install -r requirements.txt
 ```
 ## Usage
-See example.py for a complete key exchange.
-The NewHope_X25519_XSalsa20_Poly1305 exchange class is found in the nhxpoly/nhxpoly.py .<br>
+See example.py for a complete key exchange. 
+The NewHope_X25519_XSalsa20_Poly1305 exchange class is found in the nhxpoly/nhxpoly.py . 
 
 ## Overview
-This library combines the post-quantum NewHope and X25519 elliptical curve key exchanges. The aim is to form a key exchange in which both algorithms would need to be broken in order to reveal the secret key.
-*The key exchange takes place over two seperate encryption algorithms SIMILIAR but different to Google's CECPQ1 protocol using in Chrome Canary.*
+This library combines the post-quantum NewHope and X25519 elliptical curve key exchanges. The aim is to form a key exchange in which both algorithms would need to be broken in order to reveal the secret key. 
+*The key exchange takes place over two seperate encryption algorithms SIMILIAR but different to Google's CECPQ1 protocol using in Chrome Canary.* 
 
 ## How it works
-First a random 32 byte key chunk is created by the client initiating the key exchange.
-The sender who wants to create the encrypted channels then creates a X25519_XSalsa20_Poly1305 key pair and sends it the exchange requester.
-The exchange requester encrypts the first 32 byte chunk and sends it back to the sender.
-This concludes the first half of the key exchange.
-
-The requester then begins a commitment protocol which is a way to verify that an eavesdropper isn't tampering with the NewHope key exchange.
-The sender sends a random shake_128 hashed seed to the requester.
-The requester stores this, then sends the requester their own unhashed seed.
-The sender then sends their unhashed seed and first sequence of the NewHope Basepoint.
-The requester verifies the seed matches the shake_128 hash.
-If so, then the requester sends their NewHope Basepoint and an authenticated NewHope Key exchange has taken place.
-Both the sender and requester can now generate their shared secret key.
-To do so, both clients combine the two shared key chunks to form a pre-key.
+First a random 32 byte key chunk is created by the client initiating the key exchange. 
+The sender who wants to create the encrypted channels then creates a X25519_XSalsa20_Poly1305 key pair and sends it the exchange requester. 
+The exchange requester encrypts the first 32 byte chunk and sends it back to the sender. 
+This concludes the first half of the key exchange. 
+ 
+The requester then begins a commitment protocol which is a way to verify that an eavesdropper isn't tampering with the NewHope key exchange. 
+The sender sends a random shake_128 hashed seed to the requester. 
+The requester stores this, then sends the requester their own unhashed seed. 
+The sender then sends their unhashed seed and first sequence of the NewHope Basepoint. 
+The requester verifies the seed matches the shake_128 hash. 
+If so, then the requester sends their NewHope Basepoint and an authenticated NewHope Key exchange has taken place. 
+Both the sender and requester can now generate their shared secret key. 
+To do so, both clients combine the two shared key chunks to form a pre-key. 
 It is called a pre-key as it should not be used directly as is. 
-Some sort of key deriviation should be to form the final key. 
+Some sort of key deriviation should be used to form the final key. 
 The reason for this is in case either NewHope or X25519 turns out to be broken, the final key was generated based on both parts. So both parts would be needed to execute the proper key derivation. Should the key be used directly and one algorithm is broken, half the key is already revealed. 
 Lastly, the derived key can now be used to start some sort of encrypted communication.
-
+ 
 ## Additional Information
 If NewHope turns out to be breakable, you will at least still have the same security X25519_XSalsa20_Poly1305 offers.
 Both algorithms need to be broken in order for the (derived) exchange key to be reconstructed.
