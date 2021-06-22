@@ -28,26 +28,34 @@ user2.log('First prekey chunk decrypted %s' % repr([x for x in user2.prekey_chun
 user1.genSeed()
 user2.genSeed()
 
-user2.recv_hash = user1.seed_hash #user1 sends seed hash
-user2.log('NewHope Seed commitment received with seed hash %s' % user2.recv_hash)
-
 user1.initNewHope()
-user2.message = newhope.sharedb(user1.message)
-user2.recv_seed = user1.seed #user1 sends (reveals) seed
-user1.log('NewHope initial message exchange sent')
+user1.genCommitmentHash()
 
-user2.verifySeed()
+user2.recv_commitment = user1.commitment #user1 sends commitment hash
+user2.log('NewHope Seed commitment received with hash %s' % user2.recv_commitment)
+
+user2.recv_message = user1.message
+user2.recv_seed = user1.seed #user1 sends (reveals) seed
+
+user2.verifyCommitment()
 user2.log('Seed verification succeded. Authentic NewHope message recieved')
 
-user1.recv_hash = user2.seed_hash
-user1.log('NewHope Seed commitment received with seed hash %s' % user1.recv_hash)
+user2.message = newhope.sharedb(user1.message)
+user1.log('NewHope initial authenticated message exchanged')
+
+user2.genCommitmentHash()
+
+user1.recv_commitment = user2.commitment #User2 sends commitment
+user1.log('NewHope Seed commitment received with hash %s' % user1.recv_commitment)
+
+user1.recv_message = user2.message
+user1.recv_seed = user2.seed
+
+user1.verifyCommitment()
+user1.log('Seed verification succeded. Authentic NewHope message recieved')
 
 user1.message = newhope.shareda(user2.message)
-user1.log('Recieved final NewHope message')
-
-user1.recv_seed = user2.seed #user 2 sends (reveals) seed
-user1.verifySeed()
-user1.log('Seed verification succeded. Authentic NewHope message recieved')
+user1.log('NewHope final authenticated message exchanged')
 
 user2.createNewHopeSharedKeyb()
 user1.createNewHopeSharedKeya()

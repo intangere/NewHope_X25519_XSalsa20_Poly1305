@@ -32,10 +32,10 @@ Bob decrypts the random chunk.
 This random chunk is used as the first half of the exchanged pre-key value. 
  
 Alice then begins a commitment protocol which is a way to verify that an eavesdropper isn't tampering with the NewHope key exchange.
-Alice generates a random seed and creates a shake_128 hash of the seed.
-Alice then sends the hashed seed and the first sequence of the NewHope basepoint. 
-Alice reveals the seed value and Bob verifies the seed matches the shake_128 hash. 
-If so, then Bob sends their hashed seed and NewHope Basepoint.
+Alice generates a random seed and creates a shake_128 hash of the seed + the new hope message.
+Alice then sends the commitment hash and the first sequence of the NewHope basepoint. 
+Alice reveals the seed value and Bob verifies the commitment hash by generating the shake_128 hash of the revealed seed + the received newhope basepoint. 
+If so, then Bob sends their commitment hash and NewHope Basepoint.
 Bob reveals the seed value and Alice verifies.
 If verified, then an authenticated NewHope Key exchange has taken place. 
 

@@ -69,6 +69,20 @@ class NewHopeXSPolyBox():
 		# smaller than 5q, from Alkim, Ducas, Pöppelmann, Schwabe section 7:
 		self.seed_hash = hashing_algorithm.digest(100)
 
+	def genCommitmentHash(self):
+		hashing_algorithm = hashlib.shake_128()
+		hashing_algorithm.update(self.seed + str(self.message).encode())
+		# 2200 bytes from SHAKE-128 function is enough data to get 1024 coefficients
+		# smaller than 5q, from Alkim, Ducas, Pöppelmann, Schwabe section 7:
+		self.commitment = hashing_algorithm.digest(100)
+
+	def verifyCommitment(self):
+		hashing_algorithm = hashlib.shake_128()
+		hashing_algorithm.update(self.recv_seed + str(self.recv_message).encode())
+		# 2200 bytes from SHAKE-128 function is enough data to get 1024 coefficients
+		# smaller than 5q, from Alkim, Ducas, Pöppelmann, Schwabe section 7:
+		assert self.recv_commitment == hashing_algorithm.digest(100)
+
 	def verifySeed(self):
 		hashing_algorithm = hashlib.shake_128()
 		hashing_algorithm.update(self.recv_seed)
