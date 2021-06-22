@@ -51,7 +51,6 @@ class NewHopeXSPolyBox():
 	def createNewHopeSharedKeya(self):
 		self.shared_newhope_key = newhope.a_key
 
-
 	def combine_prekey_chunks(self):
 		self.prekey = self.shared_newhope_key + [x for x in self.prekey_chunk_1]
 
@@ -61,7 +60,8 @@ class NewHopeXSPolyBox():
 		   Then we use shake_128 to generate a secure hash of the seed
 		   Both are returned
 		"""
-		seed_length = int(''.join(random.SystemRandom().choice(string.digits) for _ in range(0, 3)))
+		seed_length = random.randint(100, 200)
+		print(seed_length)
 		self.seed = os.urandom(seed_length)
 		hashing_algorithm = hashlib.shake_128()
 		hashing_algorithm.update(self.seed)
@@ -74,6 +74,6 @@ class NewHopeXSPolyBox():
 		hashing_algorithm.update(self.recv_seed)
 		# 2200 bytes from SHAKE-128 function is enough data to get 1024 coefficients
 		# smaller than 5q, from Alkim, Ducas, Pöppelmann, Schwabe section 7:
-		seed_hash = hashing_algorithm.digest(100)	
+		seed_hash = hashing_algorithm.digest(100)
 		assert seed_hash == self.recv_hash
 		return True

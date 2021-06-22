@@ -25,19 +25,22 @@ This library combines the post-quantum NewHope and X25519 elliptical curve key e
 *The key exchange takes place over two seperate encryption algorithms SIMILIAR but different to Google's CECPQ1 protocol using in Chrome Canary.* 
 
 ## How it works
-First a random 32 byte key chunk is created by the client initiating the key exchange. 
-The sender who wants to create the encrypted channels then creates a X25519_XSalsa20_Poly1305 key pair and sends it the exchange requester. 
-The exchange requester encrypts the first 32 byte chunk and sends it back to the sender. 
-This concludes the first half of the key exchange. 
+First Alice creates a random 32 byte key chunk. 
+Bob then creates a X25519_XSalsa20_Poly1305 key pair and sends the public key to Alice. 
+Alice uses Bobs public key to encrypt the random 32 byte chunk and sends it to Bob. 
+Bob decrypts the random chunk. 
+This random chunk is used as the first half of the exchanged pre-key value. 
  
-The requester then begins a commitment protocol which is a way to verify that an eavesdropper isn't tampering with the NewHope key exchange. 
-The sender sends a random shake_128 hashed seed to the requester. 
-The requester stores this, then sends the requester their own unhashed seed. 
-The sender then sends their unhashed seed and first sequence of the NewHope Basepoint. 
-The requester verifies the seed matches the shake_128 hash. 
-If so, then the requester sends their NewHope Basepoint and an authenticated NewHope Key exchange has taken place. 
-Both the sender and requester can now generate their shared secret key. 
-To do so, both clients combine the two shared key chunks to form a pre-key. 
+Alice then begins a commitment protocol which is a way to verify that an eavesdropper isn't tampering with the NewHope key exchange.
+Alice generates a random seed and creates a shake_128 hash of the seed.
+Alice then sends the hashed seed and the first sequence of the NewHope basepoint. 
+Alice reveals the seed value and Bob verifies the seed matches the shake_128 hash. 
+If so, then Bob sends their hashed seed and NewHope Basepoint.
+Bob reveals the seed value and Alice verifies.
+If verified, then an authenticated NewHope Key exchange has taken place. 
+
+Both Bob and Alice can now generate their shared secret key. 
+To do so, both clients combine the two shared key chunks to form a pre-key in the format of <NaCl key + NewHope key>. 
 It is called a pre-key as it should not be used directly as is. 
 Some sort of key deriviation should be used to form the final key. 
 The reason for this is in case either NewHope or X25519 turns out to be broken, the final key was generated based on both parts. So both parts would be needed to execute the proper key derivation. Should the key be used directly and one algorithm is broken, half the key is already revealed. 
